@@ -1,8 +1,16 @@
 const jwt = require("jsonwebtoken");
 const { User, College, Teacher, Instructor, Senior, Junior, Elementary, Op } = require("../models");
-const { hashPassword, verifyPassword } = require("../utils/accountSecurity");
+const { hashPassword, verifyPassword, isBcryptHash } = require("../utils/accountSecurity");
 
 const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+
+async function comparePassword(plainPassword, storedPassword) {
+  if (!plainPassword || !storedPassword) return false;
+  if (isBcryptHash(storedPassword)) {
+    return verifyPassword(plainPassword, storedPassword);
+  }
+  return plainPassword === storedPassword;
+}
 
 const USER_TYPES = [
   { prefix: "G", model: College, col: "c_id", nameCol: "c_name", category: "college" },
@@ -19,6 +27,34 @@ function signToken(payload) {
 
 function normalizeRole(role) {
   return String(role || "").trim().toLowerCase();
+}
+
+function normalizeInput(value) {
+  return String(value || "").trim();
+}
+
+function isEqualIgnoreCase(a, b) {
+  return String(a || "").trim().toLowerCase() === String(b || "").trim().toLowerCase();
+}
+
+async function findSystemUser(userId) {
+  const normalized = normalizeInput(userId);
+  const user = await User.findOne({
+    where: {
+      [Op.or]: [
+        { user_id: normalized },
+        { user_name: normalized }
+      ]
+    }
+  });
+
+  if (user) return user;
+
+  const allSystemUsers = await User.findAll();
+  return allSystemUsers.find(u =>
+    isEqualIgnoreCase(u.user_id, normalized) ||
+    isEqualIgnoreCase(u.user_name, normalized)
+  );
 }
 
 function buildSystemResponse(systemUser) {
@@ -90,35 +126,30 @@ function buildPersonResponse(user, userType) {
 
 const login = async (req, res) => {
   try {
-    const userId = String(req.body.user_id || "").trim();
+    const userId = normalizeInput(req.body.user_id);
     const password = String(req.body.password || "");
 
     if (!userId || !password) {
       return res.status(400).json({ message: "User ID and password are required" });
     }
 
-    const systemUser = await User.findOne({
-      where: {
-        [Op.or]: [
-          { user_id: userId },
-          { user_name: userId }
-        ]
-      }
-    });
+    const systemUser = await findSystemUser(userId);
 
     if (systemUser) {
-      // Compare plain text password directly
-      const passwordValid = systemUser.pass === password;
+      const passwordValid = await comparePassword(password, systemUser.pass);
       if (!passwordValid) return res.status(401).json({ message: "Incorrect password" });
       return res.json(buildSystemResponse(systemUser));
     }
 
     for (const userType of USER_TYPES) {
-      const user = await userType.model.findOne({ where: { [userType.col]: userId } });
+      let user = await userType.model.findOne({ where: { [userType.col]: userId } });
+      if (!user) {
+        const allUsers = await userType.model.findAll();
+        user = allUsers.find(u => isEqualIgnoreCase(u[userType.col], userId));
+      }
       if (!user) continue;
 
-      // Compare plain text password directly
-      const passwordValid = user.password === password;
+      const passwordValid = await comparePassword(password, user.password);
       if (!passwordValid) return res.status(401).json({ message: "Incorrect password" });
       return res.json(buildPersonResponse(user, userType));
     }
@@ -147,11 +178,12 @@ const changePassword = async (req, res) => {
     if (category === "admin" || category === "librarian") {
       const user = await User.findOne({ where: { user_id: userId } });
       if (!user) return res.status(404).json({ message: "User not found" });
-      // Compare plain text password directly
-      if (user.pass !== currentPassword) {
+
+      const passwordValid = await comparePassword(currentPassword, user.pass);
+      if (!passwordValid) {
         return res.status(401).json({ message: "Incorrect current password" });
       }
-      // Store new password as plain text
+
       await User.update({ pass: newPassword }, { where: { id: user.id } });
       return res.json({ message: "Password updated successfully" });
     }
@@ -161,12 +193,12 @@ const changePassword = async (req, res) => {
 
     const user = await userType.model.findOne({ where: { [userType.col]: userId } });
     if (!user) return res.status(404).json({ message: "User not found" });
-    // Compare plain text password directly
-    if (user.password !== currentPassword) {
+
+    const passwordValid = await comparePassword(currentPassword, user.password);
+    if (!passwordValid) {
       return res.status(401).json({ message: "Incorrect current password" });
     }
 
-    // Store new password as plain text
     await userType.model.update(
       { password: newPassword },
       { where: { id: user.id } }

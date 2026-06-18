@@ -8,8 +8,8 @@ function formatTitle(pathname) {
   const last = segments[segments.length - 1] || "Dashboard";
 
   return last
-    .replace(/([a-z])([A-Z])/g, "$1 $2") // camelCase -> spaced
-    .replace(/[-_]/g, " ")               // kebab/snake -> spaced
+    .replace(/([a-z])([A-Z])/g, "$1 $2") 
+    .replace(/[-_]/g, " ")              
     .replace(/\b\w/g, c => c.toUpperCase());
 }
 

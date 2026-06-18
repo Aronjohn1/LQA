@@ -7,7 +7,7 @@ const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 async function comparePassword(plainPassword, storedPassword) {
   if (!plainPassword || !storedPassword) return false;
   if (isBcryptHash(storedPassword)) {
-    return verifyPassword(plainPassword, storedPassword);
+     return await verifyPassword(plainPassword, storedPassword);
   }
   return plainPassword === storedPassword;
 }

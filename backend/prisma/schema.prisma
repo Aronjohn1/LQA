@@ -1,0 +1,289 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RequestStatus {
+  pending
+  approved
+  rejected
+}
+
+model User {
+  id            Int     @id @default(autoincrement())
+  user_id       String? @unique
+  user_name     String?
+  pass          String?
+  role          String?
+  profile_image String?
+
+  @@map("User")
+}
+
+model College {
+  id            Int     @id @default(autoincrement())
+  c_id          String? @unique
+  c_name        String?
+  c_program     String?
+  c_year_block  String?
+  password      String?
+  profile_image String?
+
+  @@map("College")
+}
+
+model Senior {
+  id            Int     @id @default(autoincrement())
+  s_id          String? @unique
+  s_name        String?
+  s_program     String?
+  s_gradelevel  String?
+  s_section     String?
+  password      String?
+  profile_image String?
+
+  @@map("Senior")
+}
+
+model Junior {
+  id            Int     @id @default(autoincrement())
+  j_id          String? @unique
+  j_name        String?
+  j_program     String?
+  j_section     String?
+  password      String?
+  profile_image String?
+
+  @@map("Junior")
+}
+
+model Elementary {
+  id            Int     @id @default(autoincrement())
+  e_id          String? @unique
+  e_name        String?
+  e_program     String?
+  e_section     String?
+  password      String?
+  profile_image String?
+
+  @@map("Elementary")
+}
+
+model Teacher {
+  id             Int     @id @default(autoincrement())
+  t_id           String? @unique
+  t_name         String?
+  t_teacherlevel String?
+  password       String?
+  profile_image  String?
+
+  @@map("Teacher")
+}
+
+model Instructor {
+  id                Int     @id @default(autoincrement())
+  i_id              String? @unique
+  i_name            String?
+  i_instructorlevel String?
+  password          String?
+  profile_image     String?
+
+  @@map("Instructor")
+}
+
+model Attendancecollege {
+  id            Int       @id @default(autoincrement())
+  ac_id         String?
+  ac_name       String?
+  ac_program    String?
+  ac_year_block String?
+  ac_timein     String?
+  ac_timeout    String?
+  ac_date       String?
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+
+  @@map("Attendancecollege")
+}
+
+model Attendancesenior {
+  id            Int       @id @default(autoincrement())
+  as_id         String?
+  as_name       String?
+  as_program    String?
+  as_gradelevel String?
+  as_section    String?
+  as_timein     String?
+  as_timeout    String?
+  as_date       String?
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+
+  @@map("Attendancesenior")
+}
+
+model Attendancejunior {
+  id         Int       @id @default(autoincrement())
+  aj_id      String?
+  aj_name    String?
+  aj_program String?
+  aj_section String?
+  aj_timein  String?
+  aj_timeout String?
+  aj_date    String?
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  @@map("Attendancejunior")
+}
+
+model Attendanceelementary {
+  id         Int       @id @default(autoincrement())
+  ae_id      String?
+  ae_name    String?
+  ae_program String?
+  ae_section String?
+  ae_timein  String?
+  ae_timeout String?
+  ae_date    String?
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  @@map("Attendanceelementary")
+}
+
+model Attendanceteacher {
+  id              Int       @id @default(autoincrement())
+  at_id           String?
+  at_name         String?
+  at_teacherlevel String?
+  at_timein       String?
+  at_timeout      String?
+  at_date         String?
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
+
+  @@map("Attendanceteacher")
+}
+
+model Attendanceinstructor {
+  id                 Int       @id @default(autoincrement())
+  ai_id              String?
+  ai_name            String?
+  ai_instructorlevel String?
+  ai_timein          String?
+  ai_timeout         String?
+  ai_date            String?
+  createdAt          DateTime? @default(now())
+  updatedAt          DateTime? @updatedAt
+
+  @@map("Attendanceinstructor")
+}
+
+model request_college {
+  id             Int           @id @default(autoincrement())
+  rc_id          Int?
+  c_id           String?
+  old_program    String?
+  old_year_block String?
+  new_program    String?
+  new_year_block String?
+  reason         String?
+  status         RequestStatus @default(pending)
+  admin_response String?
+  reviewed_at    DateTime?
+  createdAt      DateTime?     @default(now())
+  updatedAt      DateTime?     @updatedAt
+
+  @@map("request_college")
+}
+
+model request_senior {
+  id             Int           @id @default(autoincrement())
+  rs_id          Int?
+  s_id           String?
+  old_program    String?
+  old_gradelevel String?
+  old_section    String?
+  new_program    String?
+  new_gradelevel String?
+  new_section    String?
+  reason         String?
+  status         RequestStatus @default(pending)
+  admin_response String?
+  reviewed_at    DateTime?
+  createdAt      DateTime?     @default(now())
+  updatedAt      DateTime?     @updatedAt
+
+  @@map("request_senior")
+}
+
+model request_junior {
+  id             Int           @id @default(autoincrement())
+  rj_id          Int?
+  j_id           String?
+  old_program    String?
+  old_section    String?
+  new_program    String?
+  new_section    String?
+  reason         String?
+  status         RequestStatus @default(pending)
+  admin_response String?
+  reviewed_at    DateTime?
+  createdAt      DateTime?     @default(now())
+  updatedAt      DateTime?     @updatedAt
+
+  @@map("request_junior")
+}
+
+model request_elementary {
+  id             Int           @id @default(autoincrement())
+  re_id          Int?
+  e_id           String?
+  old_section    String?
+  new_section    String?
+  reason         String?
+  status         RequestStatus @default(pending)
+  admin_response String?
+  reviewed_at    DateTime?
+  createdAt      DateTime?     @default(now())
+  updatedAt      DateTime?     @updatedAt
+
+  @@map("request_elementary")
+}
+
+model request_teacher {
+  id               Int           @id @default(autoincrement())
+  rt_id            Int?
+  t_id             String?
+  old_teacherlevel String?
+  new_teacherlevel String?
+  reason           String?
+  status           RequestStatus @default(pending)
+  admin_response   String?
+  reviewed_at      DateTime?
+  createdAt        DateTime?     @default(now())
+  updatedAt        DateTime?     @updatedAt
+
+  @@map("request_teacher")
+}
+
+model request_instructor {
+  id                  Int           @id @default(autoincrement())
+  ri_id               Int?
+  i_id                String?
+  old_instructorlevel String?
+  new_instructorlevel String?
+  reason              String?
+  status              RequestStatus @default(pending)
+  admin_response      String?
+  reviewed_at         DateTime?
+  createdAt           DateTime?     @default(now())
+  updatedAt           DateTime?     @updatedAt
+
+  @@map("request_instructor")
+}

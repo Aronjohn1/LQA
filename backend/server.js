@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 1000;
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://lqa-ten.vercel.app/"
+    "https://lqa-ten.vercel.app"
   ],
   credentials: true
 }));

@@ -229,16 +229,6 @@ const db = Object.fromEntries(
 );
 
 db.prisma = prisma;
-db.sequelize = {
-  async authenticate() {
-    await prisma.$connect();
-    await prisma.$queryRaw`SELECT 1`;
-  },
-  async close() {
-    await prisma.$disconnect();
-  }
-};
-db.Sequelize = { Op };
 db.Op = Op;
 
 module.exports = db;

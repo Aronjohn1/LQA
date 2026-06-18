@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
 
 async function startServer() {
   try {
-    await db.sequelize.authenticate();
+    await db.prisma.$connect();
     await ensureSystemAccounts(db);
 
     app.listen(PORT, () => {
@@ -51,8 +51,16 @@ async function startServer() {
     });
   } catch (err) {
     console.error("Startup failed:", err.message);
+    await db.prisma.$disconnect();
     process.exit(1);
   }
 }
+
+function handleShutdown() {
+  db.prisma.$disconnect().finally(() => process.exit(0));
+}
+
+process.on('SIGINT', handleShutdown);
+process.on('SIGTERM', handleShutdown);
 
 startServer();

@@ -1,4 +1,4 @@
-# LQA System - Learning Quality Assessment Platform
+# LQA System - Librarian QRCode Attendance
 
 ## 📋 Overview
 

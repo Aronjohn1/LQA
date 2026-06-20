@@ -24,7 +24,7 @@ function Profile() {
     confirm: false
   });
 
-  // Load profile data
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -35,7 +35,7 @@ function Profile() {
           user_name: res.data.user_name || res.data.name || "",
           user_id: res.data.user_id || res.data.id || "",
           profile_image: imageUrl,
-          // Extract and set the role from the response
+   
           role: res.data.role || "User"
         });
         if (res.data.user_id || res.data.id) {
@@ -139,7 +139,7 @@ function Profile() {
       opacity: 1,
       y: 0
     }} className="max-w-[450px] w-full bg-[#0b7a3a] rounded-[24px] [box-shadow:0_20px_60px_rgba(0,0,0,0.3)] [overflow:visible] relative pt-[80px]">
-        {/* Profile Picture */}
+
         <div style={{
         position: "absolute",
         top: -60,
@@ -154,7 +154,7 @@ function Profile() {
                 <FaUser />
               </div>}
             
-            {/* Camera Icon  */}
+       
             <label htmlFor="file-upload" style={{
             position: "absolute",
             bottom: 0,
@@ -180,26 +180,26 @@ function Profile() {
           </div>
         </div>
 
-        {/* Profile Content */}
+
         <div className="p-[40px_30px_40px] text-center text-white">
-          {/* Name */}
+   
           <h2 className="text-[28px] font-bold m-[0_0_10px] text-white">
             Name: {profile.user_name || "Loading..."}
           </h2>
 
-          {/* ID */}
+     
           <p className="text-[18px] m-[0_0_30px] text-[rgba(255,255,255,0.95)]">
             ID: {profile.user_id || "Loading..."}
           </p>
 
-          {/* Role Badge */}
+ 
           <div className="[display:inline-block] bg-[rgba(255,_255,_255,_0.2)] p-[10px_25px] rounded-[8px] text-[16px] font-bold text-white mb-[40px] [border:2px_solid_rgba(255,255,255,0.3)]">
             {profile.role || "Administrator"} 
           </div>
 
       
           
-          {/* Change Password Button */}
+  
           <button onClick={() => setShowPasswordModal(true)} disabled={loading} style={{
           width: "100%",
           padding: "14px",
@@ -227,7 +227,7 @@ function Profile() {
         </div>
       </motion.div>
 
-      {/* Password Modal (Unchanged) */}
+     
       {showPasswordModal && <motion.div initial={{
       opacity: 0
     }} animate={{
@@ -240,7 +240,7 @@ function Profile() {
         scale: 1,
         opacity: 1
       }} onClick={e => e.stopPropagation()} className="bg-white p-[40px] rounded-[16px] max-w-[500px] w-full [box-shadow:0_20px_60px_rgba(0,0,0,0.3)] relative">
-            {/* Close button */}
+ 
             <button onClick={() => setShowPasswordModal(false)} onMouseEnter={e => e.target.style.color = "#0b7a3a"} onMouseLeave={e => e.target.style.color = "#718096"} className="absolute [top:15px] [right:15px] bg-[transparent] border-0 text-[24px] text-[#718096] cursor-pointer p-[5px] [transition:color_0.3s_ease]">
               <FaTimes />
             </button>
@@ -276,7 +276,7 @@ function Profile() {
         </div>
 
 
- {/* New Password */}
+
         <div className="mb-[20px] relative">
   <label className="block text-[14px] font-semibold text-[#4a5568] mb-[8px]">
     New Password
@@ -293,7 +293,7 @@ function Profile() {
   </span>
         </div>
 
-        {/* Confirm New Password */}
+
         <div className="mb-[30px] relative">
   <label className="block text-[14px] font-semibold text-[#4a5568] mb-[8px]">
     Confirm New Password

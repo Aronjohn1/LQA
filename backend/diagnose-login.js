@@ -1,10 +1,5 @@
 #!/usr/bin/env node
-/**
- * LOGIN DIAGNOSTIC SCRIPT
- * Run this to identify login issues in the LQA System
- * 
- * Usage: node diagnose-login.js
- */
+
 
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
@@ -12,7 +7,7 @@ const chalk = require('chalk');
 
 const prisma = new PrismaClient();
 
-// Simple colored output (fallback if chalk not available)
+
 const colors = {
   green: (s) => `✓ ${s}`,
   red: (s) => `✗ ${s}`,
@@ -26,12 +21,12 @@ async function diagnose() {
   console.log('='.repeat(60) + '\n');
 
   try {
-    // Step 1: Database Connection
+
     console.log('Step 1: Testing Database Connection...');
     await prisma.$connect();
     console.log(colors.green('Database connected successfully\n'));
 
-    // Step 2: Check User Table
+
     console.log('Step 2: Checking System User Accounts...');
     const users = await prisma.user.findMany();
     console.log(`Found ${users.length} system user(s):\n`);
@@ -52,7 +47,7 @@ async function diagnose() {
       }
     }
 
-    // Step 3: Test Password Verification
+    
     console.log('Step 3: Testing Password Verification...');
     const testCases = [
       { user_id: 'AD-0001', password: 'admin123', desc: 'Default Admin' },
@@ -83,7 +78,7 @@ async function diagnose() {
     }
     console.log();
 
-    // Step 4: Check Other User Tables
+
     console.log('Step 4: Checking User Tables (College, Senior, etc.)...');
     const tables = [
       { name: 'College', idField: 'c_id', nameField: 'c_name' },
@@ -108,14 +103,14 @@ async function diagnose() {
     }
     console.log();
 
-    // Step 5: Verify Environment
+
     console.log('Step 5: Checking Environment...');
     console.log(`  NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
     console.log(`  JWT_SECRET: ${process.env.JWT_SECRET ? 'Set ✓' : 'Not set ✗'}`);
     console.log(`  DATABASE_URL: ${process.env.DATABASE_URL ? 'Set ✓' : 'Not set ✗'}`);
     console.log();
 
-    // Summary
+
     console.log('='.repeat(60));
     console.log('DIAGNOSTIC SUMMARY');
     console.log('='.repeat(60) + '\n');

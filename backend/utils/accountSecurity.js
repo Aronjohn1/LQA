@@ -55,7 +55,7 @@ async function ensureDefaultAccounts(db) {
       (await User.findOne({ where: { user_name: account.username } })) ||
       (await User.findOne({ where: { user_id: formatId(account.prefix, 1, account.pad) } }));
 
-    // Store password as plain text (not hashed)
+
     const passwordPlain = account.password;
 
     if (existing) {
@@ -65,7 +65,7 @@ async function ensureDefaultAccounts(db) {
       }
       if (!existing.user_name) updates.user_name = account.username;
       if (existing.role !== account.role) updates.role = account.role;
-      // Store plain text password
+
       if (existing.pass !== passwordPlain) updates.pass = passwordPlain;
 
       if (Object.keys(updates).length > 0) {
@@ -111,8 +111,7 @@ async function hashExistingPasswords(db) {
 
 async function ensureSystemAccounts(db) {
   await ensureDefaultAccounts(db);
-  // Disabled: Keep passwords as plain text for display purposes
-  // await hashExistingPasswords(db);
+
 }
 
 module.exports = {

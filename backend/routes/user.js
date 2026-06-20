@@ -53,7 +53,7 @@ router.post("/import",
   importUsers
 );
 
-// ⚠️ CRITICAL: These specific routes MUST come BEFORE /:id
+
 router.delete("/batch", 
   authMiddleware,                    
   roleMiddleware("admin"),          
@@ -66,7 +66,7 @@ router.delete("/delete-all",
   deleteAllUsers
 );
 
-// /:id routes must come LAST
+
 router.put("/:id", 
   authMiddleware,                    
   roleMiddleware("admin"),          

@@ -84,7 +84,7 @@ export default function AdminLayout() {
       
 
 
-      {/* Sidebar */}
+
       <aside style={{
       width: 260,
       background: '#fff',
@@ -99,12 +99,12 @@ export default function AdminLayout() {
       display: 'flex',
       flexDirection: 'column'
     }}>
-        {/* Close Button */}
+      
         <button onClick={() => setShowSidebar(false)} className="absolute [top:15px] [right:15px] bg-[transparent] border-0 text-[20px] cursor-pointer text-[#000] p-[0] flex items-center justify-center">
           <FaTimes />
         </button>
 
-        {/* Profile Section */}
+ 
         <div className="text-center mt-[20px] mb-[20px]">
           <div className="w-[80px] h-[80px] rounded-full overflow-hidden [border:3px_solid_#0b7a3a] m-[0_auto_10px]">
             {user?.profile_image ? <img src={user.profile_image} alt="Profile" className="w-full h-[100%] object-cover" /> : <div className="w-full h-[100%] bg-[#f0f0f0] flex items-center justify-center">

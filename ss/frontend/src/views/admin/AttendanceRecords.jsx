@@ -88,7 +88,7 @@ function AttendanceRecords() {
         if (idStr.includes("-T-")) return "teacher";
         if (idStr.includes("-I-")) return "instructor";
 
-        // Try to detect from program
+    
         const program = (record.as_program || record.program || "").toString().toUpperCase();
         if (["BSIT", "BSBA", "BSED", "BSCRIM", "BSOA"].includes(program)) return "college";
         if (["STEM", "HUMSS", "ABM", "GAS"].includes(program)) return "senior";
@@ -339,7 +339,7 @@ function AttendanceRecords() {
     return columns;
   };
 
-  // Get cell content for a record based on column key - UPDATED
+
   const getCellContent = (record, colKey, cat) => {
     switch (colKey) {
       case 'id':
@@ -484,7 +484,7 @@ function AttendanceRecords() {
         </div>
 
         <div className="flex flex-col [gap:15px]">
-          {/* Date Picker */}
+    
           <div>
             <label className="block text-[13px] font-semibold text-[#4a5568] mb-[6px]">
               <FaCalendarAlt className="mr-[6px]" />
@@ -493,7 +493,7 @@ function AttendanceRecords() {
             <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full p-[10px_12px] [border:2px_solid_#e2e8f0] rounded-[8px] text-[14px] outline-none bg-white text-black" />
           </div>
 
-          {/* Category */}
+  
           <div>
             <label className="block text-[13px] font-semibold text-[#4a5568] mb-[6px]">
               Category
@@ -538,7 +538,7 @@ function AttendanceRecords() {
               </select>
             </div>}
 
-          {/* Block/Section/Position Dropdown */}
+ 
           {(category === 'college' || category === 'senior' || category === 'junior' || category === 'elementary' || category === 'teacher' || category === 'instructor') && <div>
               <label className="block text-[13px] font-semibold text-[#4a5568] mb-[6px]">
                 {category === 'college' ? 'Block' : category === 'senior' ? 'Section' : category === 'junior' || category === 'elementary' ? 'Section' : 'Position'}
@@ -697,7 +697,7 @@ function AttendanceRecords() {
         gap: '15px',
         marginBottom: '15px'
       }}>
-            {/* Date Picker */}
+  
             <div>
               <label className="block text-[13px] font-semibold text-[#4a5568] mb-[6px]">
                 <FaCalendarAlt className="mr-[6px]" />
@@ -860,7 +860,7 @@ function AttendanceRecords() {
             Results ({filteredRecords.length} records)
           </h3>
           
-          {/* Mobile toggle columns button */}
+  
           {isMobile && category && filteredRecords.length > 0 && <button onClick={() => setShowAllColumns(!showAllColumns)} style={{
           padding: '8px 12px',
           background: showAllColumns ? '#666' : '#0b7a3a',

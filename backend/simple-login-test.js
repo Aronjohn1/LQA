@@ -1,4 +1,4 @@
-// Simple login API test
+
 async function testLoginEndpoint() {
   console.log('\n========== TESTING LOGIN ENDPOINT ==========\n');
 

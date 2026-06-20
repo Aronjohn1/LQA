@@ -88,7 +88,7 @@ function AdminDashboard() {
     background: '#f5f7fa',
     minHeight: '100vh'
   }}>
-      {/* Header */}
+
       <motion.div initial={{
       opacity: 0,
       y: -20
@@ -174,7 +174,7 @@ function AdminDashboard() {
         </div>
       </motion.div>
 
-      {/* Attendance Trend Graph */}
+
       <motion.div initial={{
       opacity: 0,
       y: 20

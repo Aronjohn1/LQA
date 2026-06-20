@@ -641,7 +641,7 @@ function Profile() {
         </div>
       </div>
 
-      {/* Change Password Modal */}
+   
       {showPasswordModal && <div style={modalContainerStyle}>
           <div style={modalContentStyle}>
             <button onClick={() => {
@@ -718,7 +718,7 @@ function Profile() {
               </span>
             </div>
 
-            {/* New Password */}
+         
             <div className="mb-[20px] relative">
               <label className="block text-[14px] font-semibold text-[#4a5568] mb-[8px]">
                 New Password

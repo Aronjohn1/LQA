@@ -37,9 +37,9 @@ export default function Login() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[100vh] p-[1rem] bg-gradient-to-br from-[#f8fafc] via-[#f1f5f9] to-[#e8eef5]">
       <div className="w-full max-w-[480px]">
-        {/* Card Container */}
+   
         <div className="bg-white rounded-[16px] shadow-[0_10px_40px_rgba(0,0,0,0.08)] overflow-hidden">
-          {/* Header Section with Gradient */}
+        
           <div className="bg-gradient-to-r from-[#06a85a] to-[#0ae373] p-[2.5rem] text-center">
             <img 
               src={logo} 
@@ -55,9 +55,9 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Form Section */}
+       
           <div className="p-[2.5rem]">
-            {/* Error Message */}
+      
             {error && (
               <div className="mb-[1.5rem] p-[1rem] bg-[#fee2e2] border-l-[4px] border-[#dc2626] rounded-[8px] animate-pulse">
                 <p className="text-[#991b1b] font-medium text-[0.95rem] flex items-center gap-[0.5rem]">
@@ -67,7 +67,7 @@ export default function Login() {
             )}
 
             <form onSubmit={submit} className="space-y-[1.5rem]">
-              {/* User ID Field */}
+           
               <div>
                 <label className="block mb-[0.75rem] font-semibold text-[#1e293b] text-[0.95rem]">
                   User ID
@@ -84,7 +84,7 @@ export default function Login() {
                 </div>
               </div>
 
-              {/* Password Field */}
+          
               <div>
                 <label className="block mb-[0.75rem] font-semibold text-[#1e293b] text-[0.95rem]">
                   Password
@@ -109,7 +109,7 @@ export default function Login() {
                 </div>
               </div>
 
-              {/* Submit Button */}
+       
               <button 
                 type="submit" 
                 disabled={loading}
@@ -124,7 +124,7 @@ export default function Login() {
             </form>
           </div>
 
-          {/* Footer */}
+   
           <div className="px-[2.5rem] py-[1.5rem] bg-[#f8fafc] border-t border-[#e2e8f0] text-center">
             <p className="text-[#64748b] text-[0.85rem]">
               Protected by institutional authentication
@@ -132,7 +132,7 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Bottom Info */}
+      
         <p className="text-center text-[#64748b] text-[0.85rem] mt-[1.5rem]">
           © 2025 Library QRCode Attendance
         </p>

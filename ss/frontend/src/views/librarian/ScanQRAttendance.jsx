@@ -1,4 +1,4 @@
-// ScanQRAttendance.jsx - FIXED VERSION
+
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import * as XLSX from "xlsx";
@@ -168,7 +168,7 @@ function ScanQRAttendance() {
           return;
         }
 
-        // Show preview
+
         setImportData(importData);
         setShowImportModal(true);
         const sampleIds = importData.slice(0, 5).map(r => r.id).filter(Boolean);
@@ -644,7 +644,7 @@ function ScanQRAttendance() {
         </>;
     }
 
-    // Other tabs...
+
     if (activeTab === "college") {
       const hasRecords = groupedAttendance.college.all.length > 0;
       if (!hasRecords) {
@@ -1002,7 +1002,7 @@ function ScanQRAttendance() {
           Today's Attendance Records
         </h3>
 
-        {/* Tabs */}
+ 
         <div className="flex [gap:10px] mb-[30px] flex-wrap [border-bottom:2px_solid_#e2e8f0] pb-[10px]">
           {tabs.map(tab => <button key={tab.key} onClick={() => setActiveTab(tab.key)} style={{
           padding: "10px 20px",

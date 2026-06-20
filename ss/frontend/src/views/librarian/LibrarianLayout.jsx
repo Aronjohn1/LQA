@@ -78,7 +78,7 @@ function LibrarianLayout() {
     navigate("/login");
   };
   return <div className="flex min-h-[100vh] bg-[#f5f5f5]">
-      {/* Sidebar */}
+
       <aside style={{
       width: 260,
       background: "white",
@@ -94,10 +94,10 @@ function LibrarianLayout() {
       padding: 20,
       borderRight: "1px solid #ddd"
     }}>
-        {/* Close button */}
+
         <FaTimes onClick={() => setShowSidebar(false)} className="absolute [top:15px] [right:15px] text-[20px] cursor-pointer text-[#000]" />
 
-        {/* Profile Section */}
+  
         <div className="text-center mt-[20px] mb-[20px]">
           <div className="w-[80px] h-[80px] rounded-full overflow-hidden m-[0_auto_10px] bg-[#f0f0f0] flex items-center justify-center [border:3px_solid_#0b7a3a]">
             {user.profile_image ? <img src={user.profile_image} alt="Profile" onError={e => {
@@ -173,7 +173,7 @@ function LibrarianLayout() {
           </NavLink>
         </nav>
 
-        {/* Logout Button */}
+  
         <div className="p-[10px] mt-[auto] [border-top:1px_solid_#e0e0e0]">
           <button onClick={() => setShowLogoutModal(true)} onMouseEnter={e => {
           e.currentTarget.style.background = "#dc3545";
@@ -188,7 +188,7 @@ function LibrarianLayout() {
         </div>
       </aside>
 
-      {/* Main Content */}
+
       <main style={{
       flex: 1,
       marginLeft: showSidebar ? 260 : 0,
@@ -197,7 +197,7 @@ function LibrarianLayout() {
       display: "flex",
       flexDirection: "column"
     }}>
-        {/* Header */}
+ 
         <header className="bg-white p-[15px_20px] [border-bottom:1px_solid_#e0e0e0] [box-shadow:0_2px_4px_rgba(0,0,0,0.05)] flex items-center [gap:15px] [position:sticky] [top:0] [z-index:100]">
           {!showSidebar && <button onClick={() => setShowSidebar(true)} onMouseEnter={e => {
           e.currentTarget.style.color = "#085d2c";
@@ -214,7 +214,7 @@ function LibrarianLayout() {
           </h1>
         </header>
 
-        {/* Page Content */}
+      
         <div className="[flex:1] p-[24px] bg-[#f5f5f5] overflow-y-auto">
           <Routes>
             <Route path="/" element={<Navigate to="/librarian/dashboard" replace />} />
@@ -225,10 +225,10 @@ function LibrarianLayout() {
         </div>
       </main>
 
-      {/* Logout Modal */}
+   
       {showLogoutModal && <div className="fixed [top:0] [left:0] [right:0] [bottom:0] bg-[rgba(0,0,0,0.5)] flex items-center justify-center [z-index:2000] p-[20px]">
           <div className="bg-white p-[25px] rounded-[12px] max-w-[400px] w-[90%] text-center [box-shadow:0_10px_30px_rgba(0,0,0,0.2)] relative">
-            {/* X Close Button */}
+         
             <button onClick={() => setShowLogoutModal(false)} onMouseEnter={e => e.currentTarget.style.backgroundColor = "#f0f0f0"} onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"} className="absolute [top:10px] [right:10px] bg-[transparent] border-0 text-[20px] cursor-pointer text-[#666] w-[30px] h-[30px] flex items-center justify-center rounded-full [transition:background-color_0.2s]">
               ×
             </button>

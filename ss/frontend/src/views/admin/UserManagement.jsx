@@ -23,7 +23,7 @@ function UserManagement() {
   const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
   const [resetPasswordUser, setResetPasswordUser] = useState(null);
   const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
-  // Tracks which rows currently have their plaintext password revealed, keyed by row id
+
   const [visiblePasswords, setVisiblePasswords] = useState({});
   const qrRefs = useRef({});
   const blocks = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
@@ -47,12 +47,11 @@ function UserManagement() {
       setLoading(true);
       let res;
       if (category === "all") {
-        // Fetch all users from all categories
+
         res = await api.get("/auth/users/all");
         setRecords(res.data.users || []);
       } else {
-        // Fetch users by specific category
-        // Fixed: Complete the URL with proper endpoint
+   
         res = await api.get(`/user?category=${category}`);
         setRecords(res.data || []);
       }
@@ -178,18 +177,18 @@ function UserManagement() {
         return;
       }
 
-      // Generate QR content and display text for new users
+
       const {
         qrContent,
         displayText
       } = generateQRContent(formData, category);
 
-      // Build the payload - only send what the backend needs
+
       let payload = {
         category
       };
 
-      // Map form fields to database field names
+
       switch (category) {
         case "college":
           payload.c_id = formData.c_id;
@@ -228,12 +227,12 @@ function UserManagement() {
           break;
       }
 
-      // Handle password
+
       if (editId && formData.password && formData.password.trim() !== "") {
-        // Update with new password
+  
         payload.password = formData.password;
       } else if (!editId) {
-        // Generate password for new user: first name lowercase
+  
         const nameField = {
           college: "c_name",
           seniorHigh: "s_name",
@@ -246,7 +245,7 @@ function UserManagement() {
         const firstName = fullName.split(" ")[0].toLowerCase();
         payload.password = firstName;
       }
-      // If editing and no password provided, don't send password field (keep existing)
+
 
       console.log("Final payload:", payload);
       let response;
@@ -257,7 +256,7 @@ function UserManagement() {
         console.log("Creating new user");
         response = await api.post("/user", payload);
 
-        // Set the QR data for the new user
+    
         setNewUserQR({
           content: qrContent,
           displayText: displayText,
@@ -277,7 +276,7 @@ function UserManagement() {
       setTimeout(() => setSaveMessage(""), 3000);
       await fetchRecords();
       if (!editId && response.data?.password) {
-        // Show plaintext password only at creation
+ 
         setNewUserPassword(response.data.password);
         setShowPasswordModal(true);
       }
@@ -661,14 +660,14 @@ function UserManagement() {
   };
   const filteredColumns = getDisplayColumns();
   const getQrValue = row => {
-    console.log("🔍 getQrValue called with category:", category);
-    console.log("🔍 Row data for QR:", row);
+    console.log(" getQrValue called with category:", category);
+    console.log(" Row data for QR:", row);
     if (!row) {
-      console.log("❌ No row data!");
+      console.log(" No row data!");
       return "No user data available";
     }
     if (row.qr_content) {
-      console.log("✅ Using stored QR content:", row.qr_content);
+      console.log(" Using stored QR content:", row.qr_content);
       return row.qr_content;
     }
     let qrContent = "";
@@ -699,10 +698,10 @@ function UserManagement() {
     }
     qrContent = qrContent.trim();
     qrContent = qrContent.replace(/\s*\|\s*\|\s*/g, ' | ');
-    console.log('✅ Generated QR Content:', qrContent);
-    console.log('🔍 Field check for', category, ':');
+    console.log(' Generated QR Content:', qrContent);
+    console.log(' Field check for', category, ':');
 
-    // DEBUG: Log all fields to see what's missing
+
     if (category === "seniorHigh") {
       console.log('s_id:', row.s_id);
       console.log('s_name:', row.s_name);
@@ -1175,7 +1174,7 @@ function UserManagement() {
       color: disabled ? "#999" : "black"
     };
     const handlePasswordChange = e => {
-      // Ensure the event has the correct name property
+
       const event = {
         ...e,
         target: {
@@ -1208,7 +1207,7 @@ function UserManagement() {
       </div>;
   };
 
-  // Password display modal
+
   const PasswordModal = () => {
     if (!showPasswordModal || !newUserPassword) return null;
     return <div className="fixed [top:0] [left:0] [right:0] [bottom:0] bg-[rgba(0,0,0,0.5)] flex justify-center items-center [z-index:9999]">
@@ -1230,7 +1229,7 @@ function UserManagement() {
           </p>
 
           <button onClick={() => {
-          // Copy to clipboard
+
           navigator.clipboard.writeText(newUserPassword).then(() => {
             alert('Password copied to clipboard!');
           });
@@ -1297,12 +1296,12 @@ function UserManagement() {
     background: '#f5f7fa',
     minHeight: '100vh'
   }}>
-      {/* Success Message */}
+
       {saveMessage && <div className="fixed [top:20px] [right:20px] bg-[#4CAF50] text-white p-[15px_20px] rounded-[8px] [box-shadow:0_4px_12px_rgba(0,0,0,0.15)] [z-index:1000]">
           <strong>Success!</strong> {saveMessage}
         </div>}
 
-      {/* Header Section */}
+
       <div style={{
       marginBottom: isMobileView ? '15px' : '20px',
       display: 'flex',
@@ -1334,7 +1333,7 @@ function UserManagement() {
         <CategorySelector />
       </div>
 
-      {/* Action Buttons - Responsive */}
+
       <div style={{
       marginBottom: 20,
       display: "flex",
@@ -1395,7 +1394,7 @@ function UserManagement() {
         </button>
       </div>
 
-      {/* Search Bar - Responsive */}
+
       <div style={{
       marginBottom: 20,
       display: "flex",
@@ -1428,7 +1427,7 @@ function UserManagement() {
         </div>
       </div>
       
-      {/* Add/Edit User Modal */}
+
       {showForm && <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 p-3">
           <div className="max-h-[95vh] max-w-[95%] overflow-y-auto rounded-[12px] bg-white p-[25px] shadow-[0_10px_30px_rgba(0,0,0,0.2)]" style={{
         position: "relative",
@@ -1494,7 +1493,7 @@ function UserManagement() {
           </div>
         </div>}
 
-      {/* Delete Confirmation Modal */}
+  
       {showDeleteConfirm && <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 p-3">
           <div className="max-h-[95vh] max-w-[95%] overflow-y-auto rounded-[12px] bg-white p-[25px] shadow-[0_10px_30px_rgba(0,0,0,0.2)]" style={{
         width: isMobileView ? '90%' : '400px',
@@ -1555,7 +1554,7 @@ function UserManagement() {
           </div>
         </div>}
 
-      {/* NEW USER QR CODE MODAL */}
+   
       {showGeneratedQR && newUserQR && <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 p-3">
           <div className="max-h-[95vh] max-w-[95%] overflow-y-auto rounded-[12px] bg-white p-[25px] shadow-[0_10px_30px_rgba(0,0,0,0.2)]" style={{
         width: isMobileView ? '90%' : '450px',
@@ -1588,7 +1587,7 @@ function UserManagement() {
             </h3>
             
 
-            {/* QR Code with embedded user data */}
+
             <div className="p-[20px] bg-[#f0f7ff] rounded-[10px] mb-[20px]">
               <QRCodeCanvas value={newUserQR.content} size={isMobileView ? 200 : 220} className="m-[0_auto] block" />
 
@@ -1616,7 +1615,7 @@ function UserManagement() {
             qrDiv.innerHTML = `<img src="${qrCode.toDataURL()}" />`;
             tempDiv.appendChild(qrDiv);
 
-            // Download QR code
+   
             const a = document.createElement('a');
             a.href = qrCode.toDataURL();
             a.download = `QR_${newUserQR.userData.name || 'user'}.png`;
@@ -1648,7 +1647,7 @@ function UserManagement() {
           </div>
         </div>}
 
-      {/* Desktop Table View */}
+
       {!isMobileView && !loading && <div className="mt-[10px] w-full overflow-x-auto rounded-[8px] border border-[#ddd] bg-white text-black shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
           <table className="w-full [border-collapse:collapse] min-w-[800px] text-[14px]">
             <thead>
@@ -1722,12 +1721,12 @@ function UserManagement() {
           </table>
         </div>}
 
-      {/* Loading State */}
+
       {loading && !isMobileView && <div className="text-center p-[40px_12px] text-[#666] text-[16px] bg-white rounded-[8px] [border:1px_solid_#ddd]">
           Loading users...
         </div>}
 
-      {/* Mobile Card View */}
+
       {isMobileView && <div className="mt-[10px]">
           {loading ? <div className="text-center p-[40px_20px] text-[#666] text-[16px] bg-white rounded-[8px] [border:1px_solid_#ddd]">
               Loading users...

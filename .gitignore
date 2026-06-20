@@ -1,48 +1,48 @@
-# Node modules
+
 node_modules/
 
-# Environment files
+
 .env
 .env.local
 .env.*.local
 
-# Logs
+
 *.log
 npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# OS files
+
 .DS_Store
 Thumbs.db
 
-# VS Code
+
 .vscode/
 
-# IDE files
+
 .idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 
-# Build output
+
 dist/
 build/
 
-# Uploads and generated files
+
 uploads/
 coverage/
 
-# Frontend build artifacts
+
 ss/dist/
 ss/dist-ssr/
 
-# Backend local files
+
 backend/.env
 backend/uploads/
 
-# Frontend local files
+
 ss/frontend/.env
 ss/frontend/node_modules/

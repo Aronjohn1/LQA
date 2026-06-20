@@ -83,7 +83,7 @@ function removeEmptyPassword(data, passwordField) {
 }
 
 function excludePasswordFromResponse(data) {
-  // Keep password/pass in response data for display purposes
+  
   const cleaned = data.toJSON ? data.toJSON() : (data.dataValues || data);
   return { ...cleaned };
 }
@@ -92,7 +92,7 @@ async function prepareUserPayload(entry, payload, isUpdate = false) {
   const passwordField = entry.passwordField || "password";
   const data = {};
 
-  // Only copy valid fields from payload
+
   const validFields = entry.validFields || [];
   for (const field of validFields) {
     if (field in payload && payload[field] !== undefined && payload[field] !== null) {
@@ -100,34 +100,34 @@ async function prepareUserPayload(entry, payload, isUpdate = false) {
     }
   }
 
-  // Handle role for system accounts
+
   if (entry.role) {
     data.role = entry.role;
   }
 
-  // Generate ID for new records if not provided
+
   if (!isUpdate && !data[entry.idField] && entry.prefix) {
     data[entry.idField] = await getNextSystemId(User, entry.prefix, entry.pad);
   }
 
-  // Handle password field mapping - store as plain text
+ 
   if ("password" in payload || "pass" in payload) {
     const rawPassword = payload.password || payload.pass;
     if (rawPassword && String(rawPassword).trim()) {
-      data[passwordField] = rawPassword; // Store plain text, don't hash
+      data[passwordField] = rawPassword; 
     }
   }
   
-  // Clean up wrong password field (but keep the correct one)
+
   if (passwordField === "password") {
-    // We're using "password" field, so remove "pass" if it exists
+
     delete data.pass;
   } else if (passwordField === "pass") {
-    // We're using "pass" field, so remove "password" if it exists
+
     delete data.password;
   }
 
-  // Remove empty password
+
   removeEmptyPassword(data, passwordField);
 
   return data;
@@ -147,7 +147,7 @@ const getUsers = async (req, res) => {
     }
 
     const data = await entry.model.findAll();
-    // Exclude passwords from the response
+
     const jsonData = data.map(row => excludePasswordFromResponse(row));
     
     res.json(jsonData);
@@ -211,14 +211,14 @@ const addUser = async (req, res) => {
       return res.status(400).json({ message: `Invalid category: ${category}` });
     }
 
-    // Prepare the data with validation
+   
     const data = await prepareUserPayload(entry, payload);
     
     if (!data[entry.idField]) {
       return res.status(400).json({ message: `${entry.idField} is required` });
     }
 
-    // Check for existing user
+
     const existing = await entry.model.findOne({ 
       where: { [entry.idField]: data[entry.idField] } 
     });
@@ -227,7 +227,7 @@ const addUser = async (req, res) => {
       return res.status(409).json({ message: `User ID ${data[entry.idField]} already exists` });
     }
 
-    // Ensure password is set
+
     if (!data[entry.passwordField || "password"]) {
       return res.status(400).json({ message: "Password must be provided or generated" });
     }
@@ -235,18 +235,18 @@ const addUser = async (req, res) => {
     const result = await entry.model.create(data);
     const resultData = result.toJSON ? result.toJSON() : result.dataValues || result;
     
-    // Extract plaintext password (only sent once at creation)
+ 
     const passwordFieldName = entry.passwordField || "password";
     const plainPassword = payload.password || payload.pass;
     
-    // Exclude password hash from response data
+
     const responseData = excludePasswordFromResponse(result);
     
     res.status(201).json({ 
       message: "User added successfully", 
       data: responseData,
       id: resultData[entry.idField],
-      password: plainPassword // Only send plaintext password at creation
+      password: plainPassword 
     });
   } catch (err) {
     console.error("Add user error:", err);
@@ -315,7 +315,7 @@ const importUsers = async (req, res) => {
         continue;
       }
 
-      // Check if user already exists
+  
       const exists = await entry.model.findOne({ 
         where: { [entry.idField]: row[entry.idField] } 
       });
@@ -324,7 +324,7 @@ const importUsers = async (req, res) => {
         continue;
       }
 
-      // Generate password from name if not provided
+   
       let password = row.password || row.pass;
       if (!password && row[entry.nameField]) {
         password = String(row[entry.nameField]).split(" ").filter(Boolean).pop();
@@ -333,7 +333,7 @@ const importUsers = async (req, res) => {
         password = "default123";
       }
 
-      // Prepare payload and filter valid fields only
+
       const payload = await prepareUserPayload(entry, {
         ...row,
         password
@@ -482,10 +482,10 @@ const resetPassword = async (req, res) => {
 
     const passwordField = entry.passwordField || "password";
     
-    // Generate a new secure password
+
     const newPassword = generateSecurePassword();
     
-    // Find and update the user
+
     const user = await entry.model.findOne({
       where: { [entry.idField]: userId }
     });
@@ -494,7 +494,7 @@ const resetPassword = async (req, res) => {
       return res.status(404).json({ message: `User not found with ID: ${userId}` });
     }
 
-    // Update the password (store as plain text)
+
     await user.update({ [passwordField]: newPassword });
 
     res.json({ 
@@ -511,7 +511,7 @@ const resetPassword = async (req, res) => {
   }
 };
 
-// Generate a secure random password
+
 function generateSecurePassword() {
   const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const lowercase = 'abcdefghijklmnopqrstuvwxyz';
@@ -521,18 +521,18 @@ function generateSecurePassword() {
   const allChars = uppercase + lowercase + numbers + special;
   let password = '';
   
-  // Ensure at least one character from each category
+
   password += uppercase[Math.floor(Math.random() * uppercase.length)];
   password += lowercase[Math.floor(Math.random() * lowercase.length)];
   password += numbers[Math.floor(Math.random() * numbers.length)];
   password += special[Math.floor(Math.random() * special.length)];
   
-  // Fill the rest with random characters
+
   for (let i = 4; i < 12; i++) {
     password += allChars[Math.floor(Math.random() * allChars.length)];
   }
   
-  // Shuffle the password
+
   return password.split('').sort(() => Math.random() - 0.5).join('');
 }
 

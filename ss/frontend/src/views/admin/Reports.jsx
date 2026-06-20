@@ -74,14 +74,14 @@ function Report() {
         Attendance Report Summary
       </h1>
 
-      {/* SUMMARY CARDS */}
+  
       <div className="grid [grid-template-columns:repeat(auto-fit,_minmax(250px,_1fr))] [gap:20px] mb-[30px]">
         <SummaryCard label="Today Visits" value={summary.today} color="#0b7a3a" isActive={period === "day"} onClick={() => handlePeriodChange("day")} />
         <SummaryCard label="This Week" value={summary.week} color="#2563eb" isActive={period === "week"} onClick={() => handlePeriodChange("week")} />
         <SummaryCard label="This Month" value={summary.month} color="#f59e0b" isActive={period === "month"} onClick={() => handlePeriodChange("month")} />
       </div>
 
-      {/* CONTROLS */}
+  
       <div className="mb-[25px] flex [gap:15px] flex-wrap items-center">
         <PeriodButton active={period === "day"} onClick={() => handlePeriodChange("day")} icon={FaCalendarDay} label="Day" />
         <PeriodButton active={period === "week"} onClick={() => handlePeriodChange("week")} icon={FaCalendarWeek} label="Week" />
@@ -133,7 +133,7 @@ function Report() {
     </div>;
 }
 
-//componenent minatay
+
 
 function SummaryCard({
   label,

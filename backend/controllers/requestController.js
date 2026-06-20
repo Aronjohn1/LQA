@@ -200,7 +200,7 @@ const getMyRequests = async (req, res) => {
     const idField = `${user_category.charAt(0)}_id`;
     const requests = await RequestModel.findAll({
       where: { [idField]: user_id },
-      order: [['id', 'DESC']] // CHANGED: from ['createdAt', 'DESC'] to ['id', 'DESC']
+      order: [['id', 'DESC']] 
     });
 
     console.log(` Found ${requests.length} requests for user ${user_id}`);
@@ -246,12 +246,12 @@ const getAllRequests = async (req, res) => {
 
       const requests = await model.findAll({
         where,
-        order: [['id', 'DESC']] // CHANGED: from ['createdAt', 'DESC'] to ['id', 'DESC']
+        order: [['id', 'DESC']] 
       });
 
       console.log(`Found ${requests.length} requests in ${cat} category`);
 
-      // Get user names for each request
+  
       const requestsWithNames = await Promise.all(
         requests.map(async (req) => {
           const reqJson = req.toJSON();
@@ -282,7 +282,7 @@ const getAllRequests = async (req, res) => {
     allRequests.sort((a, b) => {
       if (a.status === 'pending' && b.status !== 'pending') return -1;
       if (a.status !== 'pending' && b.status === 'pending') return 1;
-      return b.id - a.id; // CHANGED: from new Date(b.createdAt) - new Date(a.createdAt) to b.id - a.id
+      return b.id - a.id; 
     });
 
     console.log(` Total requests found: ${allRequests.length}`);
@@ -337,7 +337,7 @@ const updateRequestStatus = async (req, res) => {
 
     console.log("Found request:", request.toJSON());
 
-    // Update request
+
     request.status = status;
     if (admin_response) {
       request.admin_response = admin_response;

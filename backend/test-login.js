@@ -7,12 +7,12 @@ async function testLogin() {
   console.log('\n========== LOGIN DIAGNOSTICS ==========\n');
 
   try {
-    // 1. Check database connection
+
     console.log('1. Testing database connection...');
     await prisma.$connect();
     console.log('   ✓ Database connected\n');
 
-    // 2. Check User table
+
     console.log('2. Checking User table records...');
     const allUsers = await prisma.user.findMany();
     console.log(`   Total users in DB: ${allUsers.length}`);
@@ -27,7 +27,7 @@ async function testLogin() {
     }
     console.log();
 
-    // 3. Test bcrypt.compare with known admin credentials
+
     console.log('3. Testing bcrypt.compare with "admin123"...');
     if (allUsers.length > 0) {
       const firstUser = allUsers[0];
@@ -42,7 +42,7 @@ async function testLogin() {
     }
     console.log();
 
-    // 4. Check College table
+
     console.log('4. Checking College table records...');
     const colleges = await prisma.college.findMany();
     console.log(`   Total colleges in DB: ${colleges.length}`);
@@ -57,7 +57,7 @@ async function testLogin() {
     }
     console.log();
 
-    // 5. Test verifyPassword function
+
     console.log('5. Testing verifyPassword function...');
     const { verifyPassword, isBcryptHash } = require('./utils/accountSecurity');
     
@@ -73,7 +73,7 @@ async function testLogin() {
     }
     console.log();
 
-    // 6. Simulate login endpoint logic
+
     console.log('6. Simulating login endpoint logic...');
     const testUserId = 'AD-0001';
     const testPassword = 'admin123';

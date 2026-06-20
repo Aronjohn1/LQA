@@ -5,14 +5,12 @@ const prisma = new PrismaClient();
 
 async function seedUsers() {
   try {
-    // Generate fresh hashes
+
     const adminHash = bcrypt.hashSync('admin123', 12);
     const librarianHash = bcrypt.hashSync('librarian123', 12);
 
     console.log('Starting constraint-free upsert...\n');
 
-    // Pattern 1: Update first, insert only if no rows updated
-    // Admin user: AD-0001
     console.log('Processing AD-0001 (Admin)...');
     const adminUpdateResult = await prisma.$executeRaw`
       UPDATE "User" 
@@ -31,7 +29,7 @@ async function seedUsers() {
       console.log(`  ✓ Updated ${adminUpdateResult} row(s)`);
     }
 
-    // Librarian user: LB-00001
+
     console.log('\nProcessing LB-00001 (Librarian)...');
     const librarianUpdateResult = await prisma.$executeRaw`
       UPDATE "User" 
@@ -50,7 +48,7 @@ async function seedUsers() {
       console.log(`  ✓ Updated ${librarianUpdateResult} row(s)`);
     }
 
-    // Verify the records exist
+
     console.log('\n--- Verification ---');
     const users = await prisma.user.findMany({
       where: {

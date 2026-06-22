@@ -86,8 +86,8 @@ else if (id.includes("-I-") || program.toLowerCase().includes("instructor")) {
     category = "instructor";
     const validName = normalizeString(currentUser.i_name) === normalizeString(name);
     const validLevel = normalizeString(currentUser.i_instructorlevel) === normalizeString(program);
-    console.log(`🔍 Instructor check: name=${validName}, level=${validLevel}`);
-    console.log(`🔍 Database level: "${currentUser.i_instructorlevel}", QR level: "${program}"`);
+    console.log(`Instructor check: name=${validName}, level=${validLevel}`);
+    console.log(`Database level: "${currentUser.i_instructorlevel}", QR level: "${program}"`);
     return { valid: validName && validLevel, category, currentUser };
   }
   console.log(" Instructor not found in database with ID:", id);
@@ -893,7 +893,7 @@ const getMyAttendanceHistory = async (req, res) => {
     console.log("date:", date);
     console.log("----------------------------------------\n");
 
-    // Validation
+    
     if (!userId || userId === 'undefined' || userId === 'null' || userId.trim() === '') {
       console.log(" ERROR: Missing student ID");
       return res.status(400).json({ 
@@ -904,7 +904,7 @@ const getMyAttendanceHistory = async (req, res) => {
 
     const cleanUserId = userId.trim();
     
-    console.log("🔍 ID Analysis:");
+    console.log("ID Analysis:");
     console.log("ID Pattern:", cleanUserId);
     
 
@@ -1106,7 +1106,7 @@ const getMyAttendanceHistory = async (req, res) => {
     const formattedRecords = records.map(record => {
       const recordData = record.dataValues;
       
-      // Get name from record or user data
+      
       const userName = recordData[nameField] || 
                       userData.name || 
                       userData.c_name || 
@@ -1178,7 +1178,7 @@ const importAttendance = async (req, res) => {
       
       try {
         let timeStr = raw.toString().trim().toUpperCase();
-        console.log(`⏰ Parsing: "${raw}" -> "${timeStr}"`);
+        console.log(`Parsing: "${raw}" -> "${timeStr}"`);
         
     
         let match = timeStr.match(/^(\d{1,2})[:.]?(\d{2})\s*(AM|PM)$/);

@@ -155,7 +155,7 @@ const createRequest = async (req, res) => {
 
     console.log("Final request payload:", JSON.stringify(requestPayload, null, 2));
 
-    // Create the request
+    
     const request = await RequestModel.create(requestPayload);
     console.log(" Request created successfully:", request.toJSON());
 
@@ -438,7 +438,7 @@ const updateUserRecord = async (request, category) => {
       });
       console.log(` Updated ${category} user ${userId}`);
     } else {
-      console.log(`ℹNo fields to update for ${category} user ${userId}`);
+      console.log(`No fields to update for ${category} user ${userId}`);
     }
 
   } catch (error) {

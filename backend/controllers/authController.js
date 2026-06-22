@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { User, College, Teacher, Instructor, Senior, Junior, Elementary, Op } = require("../models");
 const { hashPassword, verifyPassword, isBcryptHash } = require("../utils/accountSecurity");
 
-const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+const SECRET = process.env.JWT_SECRET;
 
 async function comparePassword(plainPassword, storedPassword) {
   if (!plainPassword || !storedPassword) return false;

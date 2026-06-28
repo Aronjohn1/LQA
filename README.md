@@ -32,7 +32,7 @@ The LQA (Learning Quality Assessment) System is a comprehensive platform designe
 │              Database (PostgreSQL + Prisma ORM)                 │
 │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐   │
 │  │   User   │ │Attendance│ │ Request  │ │ Education Levels │   │
-│  │ Profiles │ │ Records  │ │  Mgmt    │ │ (College/Senior) │   │
+│  │ Profiles │ │ Records  │ │  Mgmt    │ │ (College/Senior/junior/elementary)) │   │
 │  └──────────┘ └──────────┘ └──────────┘ └──────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
 ```
